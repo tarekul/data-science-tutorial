@@ -4,7 +4,7 @@ import csv
 import matplotlib.pyplot as plt
 import numpy as np
 
-MY_FILE=MY_FILE = "../data/sample_sfpd_incident_all.csv"
+MY_FILE = "../data/sample_sfpd_incident_all.csv"
 
 
 def parse(raw_file, delimiter):
@@ -62,8 +62,29 @@ def visualize_days():
 	#close figure
 	plt.clf()
 
+def visualize_type():
+	"""Visualize data by category in a bar graph"""
+
+	#grab our parsed data	
+	data_file=parse(MY_FILE, ",")
+
+	counter=Counter(item["Category"] for item in data_file)
+	labels=tuple(counter.keys())
+
+	xlocations=np.arange(len(labels))+0.5
+	width=0.4
+	plt.bar(xlocations, counter.values(),width=width)
+	plt.xticks(xlocations + width / 2, labels, rotation=90)
+	plt.subplots_adjust(bottom=0.4)
+	plt.rcParams['figure.figsize']=12, 8
+	plt.savefig("Type.png")
+	plt.clf()
+
+
+
+
 def main():
-    visualize_days()
+    visualize_type()
 
 if __name__ == "__main__":
     main()	
